@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss";
+
+/* כאן תוכל להוסיף סגנונות גלובליים במידת הצורך */
+html, body { height: 100%; }
+:root {
+  scrollbar-gutter: stable both-edges;
+}

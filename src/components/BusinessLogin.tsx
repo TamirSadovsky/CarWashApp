@@ -231,13 +231,17 @@ export default function BusinessLogin() {
   // register lists
   useEffect(() => {
     if (mode !== 'register') return;
+
     (async () => {
       try {
-        const res = await fetch('/api/car/customer-list');
-        const rows = res.ok ? await res.json() : [];
-        const names = Array.isArray(rows)
-          ? rows.map((x: any) => (x?.CostomerName ?? '').toString().trim()).filter(Boolean)
+        const res = await fetch('/api/car/customer-names');
+        const data = res.ok ? await res.json() : [];
+
+        // endpoint returns string[]
+        const names = Array.isArray(data)
+          ? data.map((x: any) => String(x ?? '').trim()).filter(Boolean)
           : [];
+
         setCustomerNames(names);
       } catch {
         setCustomerNames([]);
@@ -258,6 +262,7 @@ export default function BusinessLogin() {
       }
     })();
   }, [mode]);
+
 
   // 🔝 Reset scroll position whenever the step OR mode changes
   useEffect(() => {
@@ -641,7 +646,8 @@ export default function BusinessLogin() {
                     customerNames={customerNames}
                     carTypes={carTypes}
                     notFoundMsg={notFoundMsg}
-                    registerSource={registerSource} // NEW
+                    registerSource={registerSource}
+                    namesLoading={customerNames.length === 0} // אופציונלי
                   />
                 )}
 

@@ -73,6 +73,8 @@ export async function POST(req: NextRequest) {
       Comments: (comments ? `${comments} ` : '') + (servicesText ? `שירותים: ${servicesText}` : ''),
     });
 
+    const phoneClean = String(phone ?? '').trim().slice(0, 15);
+
     await pool
       .request()
       .input('BranchID', sql.Int, Number(locationId))
@@ -82,7 +84,7 @@ export async function POST(req: NextRequest) {
       .input('CarNum', sql.NVarChar(15), carNum)
       .input('TypeOfCar', sql.NVarChar(50), carType ?? '')
       .input('DriverName', sql.NVarChar(100), driverName ?? '')
-      .input('DriverPhone', sql.NVarChar(15), phone ?? '')
+      .input('DriverPhone', sql.NVarChar(15), phoneClean ?? '')
       .input('GenCustName', sql.NVarChar(100), customerName ?? '')
       .input('CustomerID', sql.Int, customerId ?? null)
       .input('InternalID', sql.Int, internalId ?? null)
